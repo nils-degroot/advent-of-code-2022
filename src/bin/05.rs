@@ -1,8 +1,11 @@
 pub fn part_one(input: &str) -> Option<String> {
-    let mut start = input.lines().take(8).collect::<Vec<_>>();
+    let input_end = input.lines().position(|l| l.is_empty()).unwrap();
+    let width = (input.lines().next().unwrap().len() as f32 / 4.0).ceil() as usize;
+
+    let mut start = input.lines().take(input_end - 1).collect::<Vec<_>>();
     start.reverse();
 
-    let mut stacks = (0..9)
+    let mut stacks = (0..width)
         .map(|i| {
             start
                 .iter()
@@ -14,7 +17,7 @@ pub fn part_one(input: &str) -> Option<String> {
 
     let instructions = input
         .lines()
-        .skip(10)
+        .skip(input_end + 1)
         .map(|l| {
             let part = l.split(' ').collect::<Vec<_>>();
 
@@ -42,10 +45,13 @@ pub fn part_one(input: &str) -> Option<String> {
 }
 
 pub fn part_two(input: &str) -> Option<String> {
-    let mut start = input.lines().take(8).collect::<Vec<_>>();
+    let input_end = input.lines().position(|l| l.is_empty()).unwrap();
+    let width = (input.lines().next().unwrap().len() as f32 / 4.0).ceil() as usize;
+
+    let mut start = input.lines().take(input_end - 1).collect::<Vec<_>>();
     start.reverse();
 
-    let mut stacks = (0..9)
+    let mut stacks = (0..width)
         .map(|i| {
             start
                 .iter()
@@ -57,7 +63,7 @@ pub fn part_two(input: &str) -> Option<String> {
 
     let instructions = input
         .lines()
-        .skip(10)
+        .skip(input_end + 1)
         .map(|l| {
             let part = l.split(' ').collect::<Vec<_>>();
 
@@ -101,12 +107,12 @@ mod tests {
     #[test]
     fn test_part_one() {
         let input = aoc::read_file("examples", 5);
-        assert_eq!(part_one(&input), None);
+        assert_eq!(part_one(&input), Some("CMZ".to_string()));
     }
 
     #[test]
     fn test_part_two() {
         let input = aoc::read_file("examples", 5);
-        assert_eq!(part_two(&input), None);
+        assert_eq!(part_two(&input), Some("MCD".to_string()));
     }
 }
